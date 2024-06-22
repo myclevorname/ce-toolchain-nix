@@ -11,12 +11,16 @@ stdenv.mkDerivation (finalAttrs: {
     hash = "sha256-g9AVQF48HvaOzwm6Fr935+2+Ch+nvUV2afygb3iUflw=";
   };
 
-  dontConfigure = true;
-
-  buildPhase = ''
+  configurePhase = ''
     mkdir build
     cd build
     cmake ../llvm -DCMAKE_BUILD_TYPE=Release -DLLVM_ENABLE_PROJECTS=clang -DLLVM_TARGETS_TO_BUILD= -DLLVM_EXPERIMENTAL_TARGETS_TO_BUILD=Z80
+    cd ..
+'';
+
+
+  buildPhase = ''
+    cd build
     cmake --build . --target clang llvm-link -j $NIX_BUILD_CORES
     cd ..
   '';
