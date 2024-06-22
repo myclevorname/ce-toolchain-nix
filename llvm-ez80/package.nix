@@ -17,14 +17,14 @@ stdenv.mkDerivation (finalAttrs: {
     mkdir build
     cd build
     cmake ../llvm -DCMAKE_BUILD_TYPE=Release -DLLVM_ENABLE_PROJECTS=clang -DLLVM_TARGETS_TO_BUILD= -DLLVM_EXPERIMENTAL_TARGETS_TO_BUILD=Z80
-    cmake --build . --target clang llvm-link
+    cmake --build . --target clang llvm-link -j $NIX_BUILD_CORES
     cd ..
   '';
 
   installPhase = ''
-    mkdir -p out/bin
-    cp build/bin/clang out/bin/ez80-clang
-    cp build/bin/llvm-link out/bin/ez80-link
+    mkdir -p $out/bin
+    cp build/bin/clang $out/bin/ez80-clang
+    cp build/bin/llvm-link $out/bin/ez80-link
   '';
 
   meta = {
